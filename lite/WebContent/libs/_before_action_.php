@@ -71,11 +71,11 @@ function memberid() {
 
 $exceptionHandlers['LoginNeededException'] = '_exception_needlogin';
 function _exception_needlogin($e){
-	header('Location: /mobile/login.php?r=' . urlencode($_SERVER['REQUEST_URI']));
+	header('Location: '._BASE_.'/mobile/login.php?r=' . urlencode($_SERVER['REQUEST_URI']));
 }
 $exceptionHandlers['ManagerNeededException'] = '_exception_needmanager';
 function _exception_needmanager($e){
-	header('Location: /admin/login.php?r=' . urlencode($_SERVER['REQUEST_URI']));
+	header('Location: '._BASE_.'/admin/login.php?r=' . urlencode($_SERVER['REQUEST_URI']));
 }
 
 
