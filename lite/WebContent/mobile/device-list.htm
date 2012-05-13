@@ -1,0 +1,42 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title"#}我的iRedeem{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'./'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="action"#}
+	<a href="device.php?action=edit" data-icon="plus" class="ui-btn-right" data-transition="slide">新设备</a>
+{#/block#}
+{#block name="content"#}
+<h2>设备列表</h2>
+<ul data-role="listview" data-inset="true" data-filter="true" class="swipedelete" id="device-list">
+	{#foreach $deviceList as $device#}
+	<li data-delete="device.php?action=delete&id={#$device->id()#}">
+		<a href="device.php?action=edit&id={#$device->id()#}" data-transition="slide">{#$device->name()|escape#}
+			{#if $device->state()==Device::STATE_ENABLED#}<span class="ui-li-count" style="margin-right: 10px;">{#$device->credits()#}</span>{#/if#}
+		</a>
+		{#if $device->state()==Device::STATE_ENABLED#}
+		<a href="#" class="check-device" data-id="{#$device->id()#}" data-icon="refresh" {#if !$device->creditsUpdatedTime()#}data-need-update="true"{#/if#}>更新</a>
+		{#else#}
+		<a href="#" data-icon="minus">已禁用</a>
+		{#/if#}
+	</li>
+	{#/foreach#}
+</ul>
+<script>
+$(document).one('pageinit', function(){
+	$('#device-list .check-device').click(function(){
+		var link = $(this);
+		link.parent().find('.ui-li-count').hide();
+		$.post('device.php?action=check&id=' + link.attr('data-id'), {_json: true}, function(data){
+			if(data.result) {
+				link.parent().find('.ui-li-count').text('' + data.credits).show();
+			} else {
+				alert(data.message);
+			}
+		}, 'json').error(function(){
+			alert('发生错误');
+		});
+	});
+	$('#device-list .check-device[data-need-update=true]').click();
+	
+});
+</script>
+{#/block#}

@@ -1,0 +1,35 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>{#$message#}</title>
+<script type="text/javascript">
+var message = {#if isset($message) && $message!==NULL#}'{#$message|escape:'quote'#}'{#else#} false {#/if#};
+var url = {#if isset($url) && $url!==NULL#}'{#$url|escape:'quote'#}'{#else#} false {#/if#};
+var MESSAGE = function(){
+	if(message) alert(message);
+}
+var BACK = function(){
+	if(message) alert(message);
+	history.go(-1);
+}
+var GO = function(){
+	{#if isset($message) && $message!==NULL#}
+	alert(message);
+	{#/if#}
+	document.location.href = url;
+}
+var COLORBOX_CLOSE = function(){
+	{#if isset($message) && $message!==NULL#}
+	alert(message);
+	{#/if#}
+	top.$.colorbox.close();
+}
+
+var handle = {#if isset($handle) && $handle!==NULL#}{#$handle|escape:'quote'#}{#else#} BACK {#/if#};
+handle();
+</script>
+</head>
+<body>
+
+</body>
+</html>

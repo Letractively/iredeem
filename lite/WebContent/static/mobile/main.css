@@ -1,0 +1,66 @@
+@CHARSET "UTF-8";
+
+.ui-btn-up-e {
+    border: 1px solid #696969 /*{e-bup-border}*/;
+    background: #d23232 /*{e-bup-background-color}*/;
+    font-weight: bold;
+    color: #ffffff /*{e-bup-color}*/;
+    text-shadow:  0  /*{e-bup-shadow-x}*/  1px  /*{e-bup-shadow-y}*/  1px  /*{e-bup-shadow-radius}*/ #4f4f4f /*{e-bup-shadow-color}*/;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #FF3E3E /*{e-bup-background-start}*/), to( #9D2525 /*{e-bup-background-end}*/)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient( #FF3E3E /*{e-bup-background-start}*/, #9D2525 /*{e-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient( #FF3E3E /*{e-bup-background-start}*/, #9D2525 /*{e-bup-background-end}*/); /* FF3.6 */
+    background-image:     -ms-linear-gradient( #FF3E3E /*{e-bup-background-start}*/, #9D2525 /*{e-bup-background-end}*/); /* IE10 */
+    background-image:      -o-linear-gradient( #FF3E3E /*{e-bup-background-start}*/, #9D2525 /*{e-bup-background-end}*/); /* Opera 11.10+ */
+    background-image:         linear-gradient( #FF3E3E /*{e-bup-background-start}*/, #9D2525 /*{e-bup-background-end}*/);
+}
+.ui-btn-up-e a.ui-link-inherit {
+    color: #ffffff /*{e-bup-color}*/;
+}
+
+.ui-btn-hover-e {
+    border: 1px solid #696969 /*{e-bhover-border}*/;
+    background: #b81414 /*{e-bhover-background-color}*/;
+    font-weight: bold;
+    color: #ffffff /*{e-bhover-color}*/;
+    text-shadow:  0  /*{e-bhover-shadow-x}*/  1px  /*{e-bhover-shadow-y}*/  1px  /*{e-bhover-shadow-radius}*/ #4f4f4f /*{e-bhover-shadow-color}*/;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #EF1A1A /*{e-bhover-background-start}*/), to( #800E0E /*{e-bhover-background-end}*/)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient( #EF1A1A /*{e-bhover-background-start}*/, #800E0E /*{e-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient( #EF1A1A /*{e-bhover-background-start}*/, #800E0E /*{e-bhover-background-end}*/); /* FF3.6 */
+    background-image:     -ms-linear-gradient( #EF1A1A /*{e-bhover-background-start}*/, #800E0E /*{e-bhover-background-end}*/); /* IE10 */
+    background-image:      -o-linear-gradient( #EF1A1A /*{e-bhover-background-start}*/, #800E0E /*{e-bhover-background-end}*/); /* Opera 11.10+ */
+    background-image:         linear-gradient( #EF1A1A /*{e-bhover-background-start}*/, #800E0E /*{e-bhover-background-end}*/);
+}
+.ui-btn-hover-e a.ui-link-inherit {
+    color: #ffffff /*{e-bhover-color}*/;
+}
+.ui-btn-down-e {
+    border: 1px solid #696969 /*{e-bdown-border}*/;
+    background: #b81414 /*{e-bdown-background-color}*/;
+    font-weight: bold;
+    color: #ffffff /*{e-bdown-color}*/;
+    text-shadow:  0  /*{e-bdown-shadow-x}*/  1px  /*{e-bdown-shadow-y}*/  1px  /*{e-bdown-shadow-radius}*/ #4f4f4f /*{e-bdown-shadow-color}*/;
+    background-image: -webkit-gradient(linear, left top, left bottom, from( #880E0E /*{e-bdown-background-start}*/), to( #E71919 /*{e-bdown-background-end}*/)); /* Saf4+, Chrome */
+    background-image: -webkit-linear-gradient( #880E0E /*{e-bdown-background-start}*/, #E71919 /*{e-bdown-background-end}*/); /* Chrome 10+, Saf5.1+ */
+    background-image:    -moz-linear-gradient( #880E0E /*{e-bdown-background-start}*/, #E71919 /*{e-bdown-background-end}*/); /* FF3.6 */
+    background-image:     -ms-linear-gradient( #880E0E /*{e-bdown-background-start}*/, #E71919 /*{e-bdown-background-end}*/); /* IE10 */
+    background-image:      -o-linear-gradient( #880E0E /*{e-bdown-background-start}*/, #E71919 /*{e-bdown-background-end}*/); /* Opera 11.10+ */
+    background-image:         linear-gradient( #880E0E /*{e-bdown-background-start}*/, #E71919 /*{e-bdown-background-end}*/);
+}
+.ui-btn-down-e a.ui-link-inherit {
+    color: #ffffff /*{e-bdown-color}*/;
+}
+.ui-btn-up-e,
+.ui-btn-hover-e,
+.ui-btn-down-e {
+          font-family: Helvetica, Arial, sans-serif  /*{global-font-family}*/;
+    text-decoration: none;
+}
+
+.delete-controls button {
+    height: 2.5em;
+    width: 8em;    
+}
+
+.delete-controls {
+    text-align: right;
+}

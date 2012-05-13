@@ -1,0 +1,21 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title" prepend#}注册{#/block#}
+
+{#block name="content"#}
+
+<h2>注册新用户</h2>
+<form method="post">
+	<div data-role="fieldcontain">
+		<label for="email">电子邮箱: {#if $error#}<span class="error">{#$error|escape#}</span>{#/if#}</label>
+		<input name="email" type="email" id="email" placeholder="请填写正确邮箱">
+	</div>
+	
+	<input type="submit" data-role="button" data-theme="b" value="注册">
+	
+	<div class="ui-grid-a form-buttons">
+		<div class="ui-block-a"><a href="login.php?action=login" data-role="button" data-mini="true">登录</a></div>
+		<div class="ui-block-b"><a href="login.php?action=iforgot" data-role="button" data-mini="true">忘记密码</a></div>
+	</div>
+</form>
+
+{#/block#}

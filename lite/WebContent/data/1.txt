@@ -1,0 +1,8 @@
+insert into country (name) values ('中国');
+insert into country (name) values ('美国');
+insert into country (name) values ('日国');
+insert into country (name) values ('加拿大');
+insert into country (name) values ('英国');
+insert into country (name) values ('澳大利亚');
+insert into country (name) values ('香港');
+insert into country (name) values ('台湾');

@@ -1,0 +1,43 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title"#}我的iRedeem{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'./'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="action"#}
+	<a href="code.php?action=edit&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-icon="plus" class="ui-btn-right" data-transition="slide">新兑换码</a>
+{#/block#}
+{#block name="content"#}
+<h2>兑换码列表{#if $smarty.get.app#}: {#$smarty.get.app|escape#}{#/if#}</h2>
+<ul data-role="listview" data-inset="true" data-filter="true" class="swipedelete" id="code-list">
+	{#$app=''#}
+	{#foreach $codeList as $code#}
+
+	{#if $app!=$code->app()#}
+	{#$app=$code->app()#}
+	<li data-role="list-divider">{#$app|escape|nbsp#}</li>
+	{#/if#}
+	
+	<li data-delete="code.php?action=delete&id={#$code->id()#}">
+		<a href="code.php?action=edit&id={#$code->id()#}&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-transition="slide">
+			<span style="display: none;">{#$code->app()|escape|nbsp#}</span>
+			<span style="float: right; margin-right: -40px;">[{#$code->country->name|escape|nbsp|default:'未知'#}]</span>
+			{#$code->code()|@substr:0:8|escape|nbsp#}**
+		</a>
+		{#if $code->state()==Code::STATE_NEW#}
+		<a href="https://phobos.apple.com/WebObjects/MZFinance.woa/wa/freeProductCodeWizard?code={#$code->code()|escape:'url'#}" data-unused-code="{#$code->code()|escape#}" data-rel="external" data-icon="home">兑换</a>
+		{#else#}
+		<a href="#" data-icon="check" data-used-code="{#$code->code()|escape#}">已兑换</a>
+		{#/if#}
+	</li>
+	{#/foreach#}
+</ul>
+<script>
+$(document).one('pageinit', function(){
+	$('#code-list a[data-used-code]').click(function(){
+		alert('兑换码已使用：\n' + $(this).attr('data-used-code'));
+	});
+	$('#code-list a[data-unused-code]').click(function(){
+		var use = confirm('是否立即使用兑换码？\n' + $(this).attr('data-unused-code'));
+		return use;
+	});	
+});
+</script>
+{#/block#}

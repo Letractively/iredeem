@@ -1,0 +1,20 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title" prepend#}登录{#/block#}
+
+{#block name="content"#}
+
+<h2>登录</h2>
+<form method="post" data-ajax="false">
+	{#if $error#}<p class="error">{#$error|escape#}</p>{#/if#}
+	<label for="email">电子邮箱: </label>
+	<input name="email" type="email" id="email" placeholder="username@yourdomain.com" value="{#$smarty.post.email#}">
+	<label for="password">密码: </label>
+	<input name="password" type="password" id="password" placeholder="">
+	<input type="submit" data-role="button" data-theme="b" value="登录">
+	<div class="ui-grid-a">
+		<div class="ui-block-a"><a href="login.php?action=iforgot" data-role="button" data-mini="true" data-ajax="false">忘记密码</a></div>
+		<div class="ui-block-b"><a href="signup.php" data-role="button" data-mini="true" data-rel="external" data-ajax="false">注册</a></div>
+	</div>
+</form>
+
+{#/block#}

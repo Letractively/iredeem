@@ -1,0 +1,90 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title"#}我的iRedeem{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'code.php'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="content"#}
+<h2>兑换码</h2>
+{#if $smarty.server.REQUEST_METHOD=='POST'&&!$error#}
+<p>兑换码已保存</p>
+{#else#}
+<style>
+@media all and (min-width: 450px){
+	.ui-field-contain#appfield .ui-select {width: 20%; display: inline-block;}
+	.ui-field-contain#appfield input {vertical-align: top; width: 40%; display: inline-block;}
+}
+#appfield .ui-select {width: 30%; display: inline-block;}
+#appfield input {vertical-align: top; width:60%; display: inline-block;}
+</style>
+<form method="post" action="code.php?action=edit&id={#$code->id()#}&r={#$smarty.get.r|escape:'url'#}">
+	{#if $error#}<p class="error">{#$error|escape#}</p>{#/if#}
+	<div data-role="fieldcontain" id="appfield">
+		<label for="app">填写应用名称(可选): </label>
+		<select id="app-2">
+			<option value="">===新应用===</option>
+			{#foreach $appNames as $name#}
+			<option value="{#$name|escape#}"{#if $code->app()==$name#} selected{#/if#}>{#$name|escape#}</option>
+			{#/foreach#}
+		</select>
+		<script>
+		$('#app-2').change(function(){
+			if($(this).val()!='') {
+				$('#app').val($(this).val());
+			}
+		});
+		</script>
+		<input name="code_app" type="text" id="app" value="{#$code->app()|escape#}">
+	</div>
+	<div data-role="fieldcontain">
+		<label for="name">兑换码: </label>
+		<input name="code_code" type="text" id="code" value="{#$code->code()|escape#}" onclick="this.select();">
+	</div>
+	<div data-role="fieldcontain">
+		<label for="state">状态:</label>
+		<select name="code_state" id="state" data-role="slider">
+			<option value="{#Code::STATE_USED#}" {#if $code->state()==Code::STATE_USED#}selected="selected"{#/if#}>已用</option>
+			<option value="{#Code::STATE_NEW#}" {#if $code->state()==Code::STATE_NEW#}selected="selected"{#/if#}>新</option>
+		</select>
+	</div>
+
+	<div data-role="fieldcontain">
+		<label for="countryId">区域: </label>
+		<select name="code_countryId" id="countryId">
+			<option value="">===不指定===</option>
+			{#foreach $countryList as $country#}
+			<option value="{#$country->id()#}"{#if $code->countryId()==$country->id()#} selected{#/if#}>{#$country->name()|escape#}</option>
+			{#/foreach#}
+		</select>
+
+	</div>
+
+	<div class="ui-body form-buttons">
+		<input type="submit" data-role="button" data-theme="b" value="保存">
+		<a href="code.php" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">返回</a>
+		{#if $code->id()#}
+		<button data-role="button" data-theme="e" data-inline="true" data-mini="true" data-icon="delete" data-id="{#$code->id()#}" class="delete-code">删除</button>
+		{#/if#}
+	</div>
+</form>
+{#if $code->id()#}
+<script>
+$(document).one('pageinit', function(){
+	$('.delete-code').click(function(){
+		if(!confirm('确认删除？')) return false;
+		
+		var btn = $(this);
+		$.post('code.php?action=delete&id=' + btn.attr('data-id'), {_json: true}, function(data){
+			if(data.result) {
+				$.mobile.changePage( "{#$smarty.server.REQUEST_URI|default:'code.php'|escape:'url'#}", {transition: "slide", reloadPage: true, reverse: true} );
+			} else {
+				alert(data.message);
+			}
+		}, 'json').error(function(){
+			alert('发生错误');
+		});
+		return false;
+	});
+});
+</script>
+{#/if#}
+
+{#/if#}
+{#/block#}

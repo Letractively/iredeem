@@ -1,0 +1,19 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title"#}我的iRedeem{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'./'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="action"#}
+	<a href="code.php?action=edit" data-icon="plus" class="ui-btn-right" data-transition="slide">新兑换码</a>
+{#/block#}
+{#block name="content"#}
+<h2>兑换码类型</h2>
+<ul data-role="listview" data-inset="true" data-filter="true" class="swipedelete" id="code-list">
+	{#$app=''#}
+	{#foreach $codeCounts as $item#}
+	<li>
+		<a href="code.php?action=list&app={#$item[0]->app()|escape:'url'#}&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-transition="slide">
+		{#$item[0]->app()|escape|nbsp#}
+		</a>
+	</li>
+	{#/foreach#}
+</ul>
+{#/block#}

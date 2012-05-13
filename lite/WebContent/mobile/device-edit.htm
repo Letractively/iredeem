@@ -1,0 +1,66 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title"#}我的iRedeem{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'device.php'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="content"#}
+<h2>设备参数</h2>
+{#if $smarty.server.REQUEST_METHOD=='POST'&&!$error#}
+<p>设备已保存</p>
+{#else#}
+<form method="post" action="device.php?action=edit&id={#$device->id()#}">
+	{#if $error#}<p class="error">{#$error|escape#}</p>{#/if#}
+	<div data-role="fieldcontain">
+		<label for="fma">FMA认证链接: {#if $device->fma()#}<a href="{#$device->fma()|escape#}" style="margin-left: 10px;" target="_blank">FMA</a>{#/if#}</label>
+		<textarea name="device_fma" id="fma" placeholder="https://m.freemyapps.com/welcome?tocken=xxx">{#$device->fma()|escape#}</textarea>
+	</div>
+	{#if $device->udid()#}
+	<div data-role="fieldcontain">
+		<label for="udid">UDID: </label>
+		<p style="word-wrap: break-word; margin: 10px 0px;">{#$device->udid()|escape#}</p>
+	</div>
+	{#/if#}
+	<div data-role="fieldcontain">
+		<label for="name">设备名称(可选): </label>
+		<input name="device_name" type="text" id="name" value="{#$device->name()|escape#}">
+	</div>
+	
+	<div data-role="fieldcontain">
+		<label for="name">状态: </label>
+		<select name="device_state" id="state" data-role="slider">
+			<option value="{#Device::STATE_DISABLED#}" {#if $device->state()==Device::STATE_DISABLED#}selected="selected"{#/if#}>禁用</option>
+			<option value="{#Device::STATE_ENABLED#}" {#if $device->state()==Device::STATE_ENABLED#}selected="selected"{#/if#}>启用</option>
+		</select>
+	</div>
+	
+
+	<div class="ui-body form-buttons">
+		<input type="submit" data-role="button" data-theme="b" value="保存">
+		<a href="device.php" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">返回</a>
+		{#if $device->id()#}
+		<button data-role="button" data-theme="e" data-inline="true" data-mini="true" data-icon="delete" data-id="{#$device->id()#}" class="delete-device">删除</button>
+		{#/if#}
+	</div>
+</form>
+{#if $device->id()#}
+<script>
+$(document).one('pageinit', function(){
+	$('.delete-device').click(function(){
+		if(!confirm('确认删除？')) return false;
+		
+		var btn = $(this);
+		$.post('device.php?action=delete&id=' + btn.attr('data-id'), {_json: true}, function(data){
+			if(data.result) {
+				$.mobile.changePage( "device.php", {transition: "slide", reloadPage: true, reverse: true} );
+			} else {
+				alert(data.message);
+			}
+		}, 'json').error(function(){
+			alert('发生错误');
+		});
+		return false;
+	});
+});
+</script>
+{#/if#}
+
+{#/if#}
+{#/block#}

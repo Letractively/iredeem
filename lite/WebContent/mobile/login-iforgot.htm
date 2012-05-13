@@ -1,0 +1,17 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title" prepend#}重置密码{#/block#}
+
+{#block name="content"#}
+
+<h2>重置密码</h2>
+<form method="post">
+	<label for="email">电子邮箱: {#if $error#}<span class="error">{#$error|escape#}</span>{#/if#}</label>
+	<input name="email" type="email" id="email" placeholder="请填写正确邮箱，以收取新密码">
+	<input type="submit" data-role="button" data-theme="b" value="重置密码">
+	<div class="ui-grid-a form-buttons">
+		<div class="ui-block-a"><a href="login.php" data-role="button" data-mini="true">登录</a></div>
+		<div class="ui-block-b"><a href="signup.php" data-role="button" data-mini="true" data-rel="external">注册</a></div>
+	</div>
+</form>
+
+{#/block#}
