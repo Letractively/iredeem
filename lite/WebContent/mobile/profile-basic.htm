@@ -13,20 +13,6 @@
 {#else#}
 <form method="post" action="profile.php?action=basic">
 	{#if $error#}<p class="error">{#$error|escape#}</p>{#/if#}
-	<div data-role="fieldcontain">
-		<label for="notifyNewPromotion">通知新任务: </label>
-		<select name="member_notifyNewPromotion" id="notifyNewPromotion" data-role="slider">
-			<option value="{#Member::NOTIFYNEWPROMOTION_NO#}" {#if $member->notifyNewPromotion()==Member::NOTIFYNEWPROMOTION_NO#}selected="selected"{#/if#}>禁用</option>
-			<option value="{#Member::NOTIFYNEWPROMOTION_YES#}" {#if $member->notifyNewPromotion()==Member::NOTIFYNEWPROMOTION_YES#}selected="selected"{#/if#}>启用</option>
-		</select>
-	</div>
-	<div data-role="fieldcontain">
-		<label for="notifyNewGift">通知新Gift: </label>
-		<select name="member_notifyNewGift" id="notifyNewGift" data-role="slider">
-			<option value="{#Member::NOTIFYNEWGIFT_NO#}" {#if $member->notifyNewGift()==Member::NOTIFYNEWGIFT_NO#}selected="selected"{#/if#}>禁用</option>
-			<option value="{#Member::NOTIFYNEWGIFT_YES#}" {#if $member->notifyNewGift()==Member::NOTIFYNEWGIFT_YES#}selected="selected"{#/if#}>启用</option>
-		</select>
-	</div>
 
 	<input type="submit" data-role="button" data-theme="b" value="修改">
 </form>
