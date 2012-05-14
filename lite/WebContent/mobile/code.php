@@ -20,6 +20,10 @@ function doList(){
 
 	if(isset($_GET['app']) && $_GET['app']!=='') {
 		$c['app'] = $_GET['app']; //text
+		
+		$data = AppData::getOne(array('memberId'=>memberid(), 'name'=>$_GET['app']));
+		if($data) $smarty->assign('itunesData', $data->itunesData());
+		
 	}
 	$count = Code::getSize($c);
 	$pages = ceil($count/$size) == 0? 1 : ceil($count/$size);
@@ -46,6 +50,12 @@ function doType() {
 	$c['memberId='] = memberid();
 
 	$codeCounts = Code::getGroupSize($c, array('app'));
+	$appDatas = array();
+	foreach($codeCounts as $app) {
+		$data = AppData::getOne(array('memberId'=>memberid(), 'name'=>$app[0]->app()));
+		if($data) $appDatas[$app[0]->app()] = $data->itunesData();
+	}
+	$smarty->assign('appDatas', $appDatas);
 	$smarty->assign('codeCounts', $codeCounts);
 	$smarty->display('mobile/code-type.htm');
 }
@@ -139,14 +149,17 @@ function doEdit(){
 			if($code->memberId() != memberid()) {
 				throw new AccessDenidedException();
 			}
-			$smarty->assign('code', $code);
-			$smarty->display('mobile/code-edit.htm');
 		}
 	} else {
 		$code = new Code();
-		$smarty->assign('code', $code);
-		$smarty->display('mobile/code-edit.htm');
+		if(isset($_GET['app']) && !empty($_GET['app'])) {
+			$code->app($_GET['app']);
+		}
 	}
+	$appData = AppData::getOne(array('memberId'=>memberid(), 'name'=>$code->app()));
+	$smarty->assign('appData', $appData);
+	$smarty->assign('code', $code);
+	$smarty->display('mobile/code-edit.htm');
 }
 
 function doDelete(){
@@ -161,4 +174,50 @@ function doDelete(){
 		$code->delete();
 	}
 	echo json_encode(array('result'=>true, 'message'=>'已删除'));
+}
+
+function doITunes() {
+	$smarty = global_smarty();
+	
+	if(isset($_GET['app'])) {
+		$app = $_GET['app'];
+		
+		$appData = null;
+		if($app !== '') {
+			$appData = AppData::getOne(array('memberId'=>memberid(), 'name'=>$app));
+		}
+		if(!$appData) {
+			$appData = new AppData();
+			$appData->memberId(memberid());
+			$appData->name($app);
+		}
+		
+		$error = false;
+		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$itunesUrl = $_POST['appdata_itunesUrl'];
+			if($itunesUrl == '') {
+				$error = '链接不能为空';
+			} else if(!preg_match('@^http://itunes.apple.com/([^/]+/)?app/([^/]+/)id(\d+)[^\d]@i', $itunesUrl, $match)) {
+				$error = '不认识这个链接~';
+			}
+			if(!$error) {
+				$appData->itunesUrl($itunesUrl);
+				
+				$appid = $match[3];
+				$json = file_get_contents('http://itunes.apple.com/'.$match[1].'lookup?id=' . $appid);
+				if($json && ($data = json_decode($json, true)) && isset($data['resultCount']) && $data['resultCount'] == 1) {
+					$itunesData = $data['results'][0];
+					$appData->itunesData($itunesData);
+					
+					$appData->save();
+				} else {
+					$error = 'iTunes API调用出错';
+				}
+			}
+		}
+		$smarty->assign('error', $error);
+		
+		$smarty->assign('appData', $appData);
+		$smarty->display('mobile/code-itunes.htm');		
+	}
 }

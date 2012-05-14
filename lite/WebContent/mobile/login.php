@@ -8,7 +8,7 @@ function doLogin() {
 	if(isset($_GET['r']) && $_GET['r']) {
 		$r = $_GET['r'];
 	} else {
-		$r = '/mobile/';
+		$r = _BASE_.'/mobile/';
 	}
 
 	if(isset($_SESSION[_USER_])) {
@@ -56,7 +56,7 @@ function doLogout() {
 	if(isset($_GET['r']) && $_GET['r']) {
 		$r = $_GET['r'];
 	} else {
-		$r = '/mobile/';
+		$r = _BASE_.'/mobile/';
 	}
 	
 	unset($_SESSION[_USER_]);

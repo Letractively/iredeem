@@ -1,5 +1,5 @@
 {#extends file="./extend/mobile.htm"#} 
-{#block name="title"#}我的iRedeem{#/block#}
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
 {#block name="back"#}<a href="{#$smarty.get.r|escape|default:'./'#}" data-icon="home" class="ui-btn-left" data-ajax="false">Home</a>{#/block#}
 
 {#block name="content"#}

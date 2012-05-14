@@ -1,6 +1,10 @@
 {#extends file="./extend/mobile.htm"#} 
-{#block name="title"#}我的iRedeem{#/block#}
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
 {#block name="back"#}<a href="{#$smarty.get.r|escape|default:'device.php'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="action"#}
+	{#if $device->fma()#}<a href="device.php?action=gifts&id={#$device->id()#}" data-rel="dialog" data-transition="pop">Gifts</a>{#/if#}
+{#/block#}
+
 {#block name="content"#}
 <h2>设备参数</h2>
 {#if $smarty.server.REQUEST_METHOD=='POST'&&!$error#}
@@ -10,7 +14,7 @@
 	{#if $error#}<p class="error">{#$error|escape#}</p>{#/if#}
 	<div data-role="fieldcontain">
 		<label for="fma">FMA认证链接: {#if $device->fma()#}<a href="{#$device->fma()|escape#}" style="margin-left: 10px;" target="_blank">FMA</a>{#/if#}</label>
-		<textarea name="device_fma" id="fma" placeholder="https://m.freemyapps.com/welcome?tocken=xxx">{#$device->fma()|escape#}</textarea>
+		<textarea name="device_fma" id="fma" placeholder="例如 https://m.freemyapps.com/welcome?tocken=xxx">{#$device->fma()|escape#}</textarea>
 	</div>
 	{#if $device->udid()#}
 	<div data-role="fieldcontain">

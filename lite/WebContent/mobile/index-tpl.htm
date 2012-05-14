@@ -1,5 +1,5 @@
 {#extends file="./extend/mobile.htm"#} 
-{#block name="title"#}我的iRedeem{#/block#}
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
 {#block name="back"#}{#/block#}
 {#block name="content"#}
 
@@ -10,7 +10,7 @@
 
 <h2>我的兑换码</h2>
 <ul data-role="listview" data-inset="true">
-	<li><a href="code.php?action=type" data-transition="slide">兑换码分类<span class="ui-li-count">{#$codeTypeCount#}</span></a></li>
+	<li><a href="code.php?action=type" data-transition="slide">按应用查看兑换码<span class="ui-li-count">{#$codeTypeCount#}</span></a></li>
 	<li><a href="code.php" data-transition="slide">全部兑换码<span class="ui-li-count">{#$codeCount#}</span></a></li>
 	<li><a href="code.php?action=edit&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-transition="slide">增加一个兑换码</a></li>
 </ul>

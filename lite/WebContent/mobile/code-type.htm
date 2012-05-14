@@ -1,18 +1,22 @@
 {#extends file="./extend/mobile.htm"#} 
-{#block name="title"#}我的iRedeem{#/block#}
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
 {#block name="back"#}<a href="{#$smarty.get.r|escape|default:'./'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
 {#block name="action"#}
 	<a href="code.php?action=edit" data-icon="plus" class="ui-btn-right" data-transition="slide">新兑换码</a>
 {#/block#}
 {#block name="content"#}
-<h2>兑换码类型</h2>
-<ul data-role="listview" data-inset="true" data-filter="true" class="swipedelete" id="code-list">
-	{#$app=''#}
+<h2>按应用查看</h2>
+<ul data-role="listview" data-inset="true" data-filter="true" class="swipedelete apps">
 	{#foreach $codeCounts as $item#}
+	{#$app=$item[0]->app()#}
 	<li>
 		<a href="code.php?action=list&app={#$item[0]->app()|escape:'url'#}&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-transition="slide">
-		{#$item[0]->app()|escape|nbsp#}
+		{#if $appDatas[$app]#}
+		<img src="{#$appDatas[$app].artworkUrl60#}" alt="{#$app|escape#}" class="ui-li-icon app-icon">
+		{#/if#}
+		{#$app|escape|nbsp#}
 		</a>
+		<a href="code.php?action=iTunes&app={#$app|escape:'url'#}&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-icon="gear" data-transition="slide">详情</a>
 	</li>
 	{#/foreach#}
 </ul>

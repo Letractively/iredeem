@@ -9,12 +9,6 @@
 	<script src="{#$smarty.const._BASE_#}/static/jquery/jquery.js"></script>
 	<script src="{#$smarty.const._BASE_#}/static/mobile/main.js"></script>
 	<script src="{#$smarty.const._BASE_#}/static/jquery/mobile/jquery.mobile.js"></script>
-	<style>
-	.form-buttons .ui-btn {margin: 1em 5px;}
-	.form-buttons .ui-btn.ui-mini {margin: 0.5em 5px;}
-	label span.error {color: red;}
-	p.error {color: red;}
-	</style>
 </head>
 <body>
 	{#block name="body"#}
@@ -39,5 +33,18 @@
 		</div><!-- /footer -->
 	</div><!-- /page popup -->
 	{#/block#}
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '{#$siteConfig.google_analytics_tracking_id#}']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </body>
 </html>

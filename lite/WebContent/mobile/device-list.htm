@@ -1,5 +1,5 @@
 {#extends file="./extend/mobile.htm"#} 
-{#block name="title"#}我的iRedeem{#/block#}
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
 {#block name="back"#}<a href="{#$smarty.get.r|escape|default:'./'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
 {#block name="action"#}
 	<a href="device.php?action=edit" data-icon="plus" class="ui-btn-right" data-transition="slide">新设备</a>

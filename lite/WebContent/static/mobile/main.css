@@ -64,3 +64,68 @@
 .delete-controls {
     text-align: right;
 }
+
+.form-buttons .ui-btn {margin: 1em 5px;}
+.form-buttons .ui-btn.ui-mini {margin: 0.5em 5px;}
+label span.error {color: red;}
+p.error {color: red;}
+.ui-li-static.ui-li {padding-top: 1em; padding-bottom: 1em;}
+.ui-header .ui-title {margin-left: 40px; margin-right: 40px; }
+
+img.ui-li-icon.app-icon {height: 32px; width: 32px; top: 0.3em;}
+ul.apps .ui-li .ui-btn-inner a.ui-link-inherit, ul.apps .ui-li-has-icon .ui-btn-inner a.ui-link-inherit {padding-left: 52px;}
+h2 img.app-icon {height: 32px; width: 32px; vertical-align: bottom;}
+
+@media all and (min-width: 450px){
+	.ui-field-contain#appfield .ui-select {width: 20%; display: inline-block;}
+	.ui-field-contain#appfield input {vertical-align: top; width: 40%; display: inline-block;}
+}
+#appfield .ui-select {width: 30%; display: inline-block;}
+#appfield input {vertical-align: top; width:60%; display: inline-block;}
+
+img.app-icon {
+	
+	border: 0px solid #ccc;
+	 
+	/* Safari 5, Chrome support border-radius without vendor prefix.
+	 * FF 3.0/3.5/3.6, Mobile Safari 4.0.4 require vendor prefix.
+	 * No support in Safari 3/4, IE 6/7/8, Opera 10.0.
+	 */
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	
+	/* Chrome, FF 4.0 support box-shadow without vendor prefix.
+	 * Safari 3/4/5 and FF 3.5/3.6 require vendor prefix.
+	 * No support in FF 3.0, IE 6/7/8, Opera 10.0, iPhone 3.
+	 * change the offsets, blur and color to suit your design.
+	 */
+	-moz-box-shadow: 1px 1px 2px #666;
+	-webkit-box-shadow: 1px 1px 2px #666;
+	box-shadow: 1px 1px 2px #666;
+		
+	/* with a big radius/font there needs to be padding left and right
+	 * otherwise the text is too close to the radius.
+	 * on a smaller radius/font it may not be necessary
+	 */
+	padding: 0px 0px;
+	
+	/* only needed for webkit browsers which show a rectangular outline;
+	 * others do not do outline when radius used.
+	 * android browser still displays a big outline
+	 */
+	outline: 0;
+	
+	/* this is needed for iOS devices otherwise a shadow/line appears at the
+	 * top of the input. depending on the ratio of radius to height it will
+	 * go all the way across the full width of the input and look really messy.
+	 * ensure the radius is no more than half the full height of the input, 
+	 * and the following is set, and everything will render well in iOS.
+	 */
+	-webkit-appearance: none;	
+}
+ul.gallery {list-style: none; padding-left: 10px;}
+ul.gallery#screenshots li {display: none; padding-left: 0px;}
+ul.gallery#screenshots li:first-child {display: block;}
+
+ul.gallery#screenshots li img {max-width: 240px;}

@@ -2,7 +2,7 @@ $(function(){
 
 var onswipe = false;
 
-$('body').on('swipeleft swiperight', '.swipedelete > li', function(){ 
+$('body').on('swipeleft swiperight', '.swipedelete > li[data-delete]', function(){ 
 	var $ul = $($(this).parents('ul').get(0));
 	
 	if(!onswipe){

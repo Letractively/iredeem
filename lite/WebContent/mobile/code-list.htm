@@ -1,11 +1,22 @@
 {#extends file="./extend/mobile.htm"#} 
-{#block name="title"#}我的iRedeem{#/block#}
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
 {#block name="back"#}<a href="{#$smarty.get.r|escape|default:'./'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
 {#block name="action"#}
-	<a href="code.php?action=edit&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-icon="plus" class="ui-btn-right" data-transition="slide">新兑换码</a>
+	<a href="code.php?action=edit&{#if $smarty.get.app#}app={#$smarty.get.app|escape:'url'#}{#/if#}&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-icon="plus" class="ui-btn-right" data-transition="slide">新兑换码</a>
 {#/block#}
 {#block name="content"#}
-<h2>兑换码列表{#if $smarty.get.app#}: {#$smarty.get.app|escape#}{#/if#}</h2>
+<h2>
+	{#if $smarty.get.app#}
+		{#if $itunesData#}
+			<img src="{#$itunesData.artworkUrl60#}" alt="{#$app|escape#}" class="app-icon">&nbsp;
+			<a href="code.php?action=iTunes&app={#$smarty.get.app|escape:'url'#}&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-transition="slide">{#$smarty.get.app|escape#}</a>
+		{#else#}
+			{#$smarty.get.app|escape#}
+		{#/if#}
+	{#else#}
+		兑换码列表
+	{#/if#}
+</h2>
 <ul data-role="listview" data-inset="true" data-filter="true" class="swipedelete" id="code-list">
 	{#$app=''#}
 	{#foreach $codeList as $code#}

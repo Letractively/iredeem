@@ -1,19 +1,16 @@
 {#extends file="./extend/mobile.htm"#} 
-{#block name="title"#}我的iRedeem{#/block#}
-{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'code.php'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'code.php?action=type'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="action"#}
+	{#if $code->id()#}
+	<a href="code.php?action=iTunes&app={#$code->app()|escape:'url'#}&r={#$smarty.server.REQUEST_URI|escape:'url'#}" data-icon="gear" class="ui-btn-right" data-transition="slide">详情</a>
+	{#/if#}
+{#/block#}
 {#block name="content"#}
 <h2>兑换码</h2>
 {#if $smarty.server.REQUEST_METHOD=='POST'&&!$error#}
 <p>兑换码已保存</p>
 {#else#}
-<style>
-@media all and (min-width: 450px){
-	.ui-field-contain#appfield .ui-select {width: 20%; display: inline-block;}
-	.ui-field-contain#appfield input {vertical-align: top; width: 40%; display: inline-block;}
-}
-#appfield .ui-select {width: 30%; display: inline-block;}
-#appfield input {vertical-align: top; width:60%; display: inline-block;}
-</style>
 <form method="post" action="code.php?action=edit&id={#$code->id()#}&r={#$smarty.get.r|escape:'url'#}">
 	{#if $error#}<p class="error">{#$error|escape#}</p>{#/if#}
 	<div data-role="fieldcontain" id="appfield">
@@ -58,7 +55,7 @@
 
 	<div class="ui-body form-buttons">
 		<input type="submit" data-role="button" data-theme="b" value="保存">
-		<a href="code.php" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">返回</a>
+		<a href="{#$smarty.get.r|escape|default:'code.php?action=type'#}" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">返回</a>
 		{#if $code->id()#}
 		<button data-role="button" data-theme="e" data-inline="true" data-mini="true" data-icon="delete" data-id="{#$code->id()#}" class="delete-code">删除</button>
 		{#/if#}

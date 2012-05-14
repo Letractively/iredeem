@@ -59,9 +59,6 @@ function doEdit(){
 		$device = Device::get($_GET['id']);
 		if($device) {
 			if($device->memberId() != memberid()) {
-				var_dump($device->memberId());
-				var_dump(memberid());
-				return;
 				throw new AccessDenidedException();
 			}
 		}
@@ -189,4 +186,97 @@ function doCheck(){
 		}
 	}
 	echo json_encode(array('result'=>false, 'message'=>'发生错误'));
+}
+
+function doGifts() {
+	require_once _ROOT_ . '/libs/local/bz.php';
+	
+	$smarty = global_smarty();
+
+	if(isset($_GET['id']) && !empty($_GET['id'])) {
+		$device = Device::get($_GET['id']);
+		if($device === NULL) {
+			throw new MessageException('记录不存在');
+		} else if($device->memberId() != memberid()) {
+			throw new AccessDenidedException();
+		}
+		if($device->creditsUpdatedTime() && strtotime($device->creditsUpdatedTime()) < strtotime('-10 minutes')) {
+			$gifts = getFMAGifts($device, $credits);
+			if($credits !== false) {
+				$device->creditsUpdatedTime(date('Y-m-d H:i:s'));
+				$device->credits($credits);
+				$device->fmaGifts($gifts);
+				$device->save();
+			}
+		}
+		
+		$codes = array();
+		if($device->fmaGifts()) {
+			foreach($device->fmaGifts() as $gift) {
+				if(!isset($gift[2]) || !$gift[2]) continue;
+				$code = $gift[2];
+				$codes[$code] = Code::getSize(array('memberId'=>memberid(), 'code'=>$code));
+			}
+		}
+
+		$smarty->assign('device', $device);
+		$smarty->assign('codes', $codes);
+		$smarty->display('mobile/device-gifts.htm');
+	}
+}
+
+function doGift2Code() {
+	require_once _ROOT_ . '/libs/local/bz.php';
+	
+	$code = new Code();
+	$code->memberId(memberid());
+	$code->app($_POST['app']);
+	$code->code($_POST['code']);
+	if(isset($_POST['country'])) {
+		$country = Country::getOne(array('name'=>$_POST['country']));
+		if($country) {
+			$code->countryId($country->id());
+		}
+	}
+	$code->save();
+	echo json_encode(array('result'=>true, 'message'=>'已保存兑换码'));
+}
+
+function doPayout() {
+	require_once _ROOT_ . '/libs/local/bz.php';
+	
+	if(isset($_GET['id']) && !empty($_GET['id'])) {
+		$device = Device::get($_GET['id']);
+		if($device === NULL) {
+			throw new MessageException('记录不存在');
+		} else if($device->memberId() != memberid()) {
+			throw new AccessDenidedException();
+		}
+		$giftId = $_POST['gift'];
+		$giftcode = fmaPayout($giftId, $device);
+		$code = new Code();
+		$code->memberId(memberid());
+		$code->app($_POST['app']);
+		$code->code($giftcode);
+		if(isset($_POST['country'])) {
+			$country = Country::getOne(array('name'=>$_POST['country']));
+			if($country) {
+				$code->countryId($country->id());
+			}
+		}
+		$code->save();
+		
+		$gifts = getFMAGifts($device, $credits);
+		if($credits !== false) {
+			$device->creditsUpdatedTime(date('Y-m-d H:i:s'));
+			$device->credits($credits);
+			$device->fmaGifts($gifts);
+			$device->save();
+		}
+		
+		echo json_encode(array('result'=>true, 'message'=>'已兑换 ' . $code->app(), 'credits'=>$device->credits()));
+		return;
+	}
+	echo json_encode(array('result'=>false, 'message'=>'发生错误'));
+	
 }

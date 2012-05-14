@@ -279,6 +279,6 @@ $_DOMAIN_CLASSES_['Country'] = array(
 $_DOMAIN_CLASSES_['Code'] = array(
 	'name' => 'Code',
 );
-$_DOMAIN_CLASSES_['Log'] = array(
-	'name' => 'Log',
+$_DOMAIN_CLASSES_['AppData'] = array(
+	'name' => 'AppData',
 );
