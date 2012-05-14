@@ -1,0 +1,55 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'code.php?action=type'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="content"#}
+<h2>应用信息: {#$appData->name()|escape#}</h2>
+{#if $smarty.server.REQUEST_METHOD=='POST'&&!$error#}
+<p>应用信息已保存</p>
+{#else#}
+
+{#if $appData->id()#}
+	<link href="{#$smarty.const._BASE_#}/static/jquery/photoswipe/photoswipe.css" type="text/css" rel="stylesheet" />	
+	<script type="text/javascript" src="{#$smarty.const._BASE_#}/static/jquery/photoswipe/klass.min.js"></script>
+	<script type="text/javascript" src="{#$smarty.const._BASE_#}/static/jquery/photoswipe/jquery.photoswipe.min.js"></script>
+
+	<div data-role="collapsible" id="app-detail">
+		<h3>详情</h3>
+		<div>
+			<h4>{#$appData->name()|escape#}</h4>
+			<ul id="screenshots" class="gallery">
+				{#foreach $appData->itunesData.screenshotUrls as $s#}
+				<li><a href="{#$s|escape#}" rel="external"><img src="{#$smarty.const._BASE_#}/static/mobile/loading.gif" {#if $s@first#}data-src="{#$s|escape#}"{#/if#} alt="screenshot {#$s@iteration#}" /></a></li>
+				{#/foreach#}
+			</ul>	
+		</div>
+	</div>
+	
+<script>
+$(document).one('pageinit', function(){
+	$('#app-detail').on('updatelayout', function() {
+		$('img[data-src]', this).each(function(){
+			$(this).attr('src', $(this).attr('data-src'));
+		});
+	});
+	$("#screenshots a").photoSwipe({allowUserZoom: false});
+});
+</script>
+
+{#/if#}
+
+<form method="post" action="code.php?action=itunes&app={#$appData->name()|escape:'url'#}&r={#$smarty.get.r|escape:'url'#}">
+	{#if $error#}<p class="error">{#$error|escape#}</p>{#/if#}
+	<div data-role="fieldcontain">
+		<label for="itunesUrl">iTunes链接: </label>
+		<textarea name="appdata_itunesUrl" id="itunesUrl" placeholder="例如 http://itunes.apple.com/cn/app/id888888888?mt=8">{#$appData->itunesUrl()|escape#}</textarea>
+	</div>
+
+	<div class="ui-body form-buttons">
+		<input type="submit" data-role="button" data-theme="b" value="保存">
+		<a href="{#$smarty.get.r|escape|default:'code.php?action=type'#}" data-role="button" data-mini="true" data-transition="slide" data-direction="reverse">返回</a>
+	</div>
+</form>
+
+
+{#/if#}
+{#/block#}

@@ -1,0 +1,81 @@
+{#extends file="./extend/mobile.htm"#} 
+{#block name="title"#}{#$siteConfig.title|escape#}{#/block#}
+{#block name="back"#}<a href="{#$smarty.get.r|escape|default:'device.php'#}" data-icon="arrow-l" data-transition="slide" data-direction="reverse">返回</a>{#/block#}
+{#block name="body"#}
+<div data-role="dialog">
+	<div data-role="header" data-theme="d">
+		<h2>{#$device->name()|escape#} 的Gifts(<span id="credits">{#$device->credits()#}</span>)</h2>
+	</div>
+
+	<div data-role="content">
+	<ul data-role="listview" data-filter="true">
+		{#foreach $device->fmaGifts() as $app=>$gift#}
+		{#if $gift[0]&&$device->credits()>=$gift[1]#}
+		<li>
+			<a href="#">
+				{#$app|escape#}
+				<span class="ui-li-count" style="margin-right: 10px;">{#$gift[1]#}</span>
+			</a>
+			<a href="#" data-icon="plus" data-app="{#$app|escape#}" data-credits="{#$gift[1]#}" data-gift-id="{#$gift[0]#}">兑换</a>
+		</li>
+		{#elseif $gift[0]==0&&isset($gift[2])#}
+			{#if $codes[$gift[2]]==0#}
+		<li>
+			<a href="#">
+				{#$app|escape#}
+			</a>
+			<a href="#" data-icon="check" data-app="{#$app|escape#}" data-redeem-code="{#$gift[2]#}">已兑换</a>
+		</li>
+			{#else#}
+		<li>
+			<span>
+				{#$app|escape#}
+			</span>
+		</li>			
+			{#/if#}
+		{#/if#}
+		{#/foreach#}
+	</ul>
+	
+	</div>
+
+	<div data-role="footer" data-theme="d">
+		<a href="#" data-role="button" data-rel="back" data-theme="c">Back</a>
+	</div>
+
+	<script>
+	$(document).one('pageinit', function(){
+		$('a[data-redeem-code]').click(function(){
+			var link = $(this);
+			$.post('device.php?action=gift2Code', {code: link.attr('data-redeem-code'), app: link.attr('data-app'), country: '美国', _json: true}, function(data) {
+				if(data.result) {
+					link.remove();
+				} else {
+					alert(data.message);
+				}
+			}, 'json').error(function(){
+				alert('发生错误');
+			});
+		});
+		$('a[data-gift-id]').click(function(){
+			var link = $(this);
+			if(!confirm('是否使用 ' + link.attr('data-credits') + ' credits 兑换\n\n' + link.attr('data-app'))) return false;
+			
+			$.post('device.php?action=payout&id={#$device->id()#}', {gift: link.attr('data-gift-id'), app: link.attr('data-app'), country: '美国', _json: true}, function(data) {
+				if(data.result) {
+					$('.ui-li-count', link.parents('li').get(0)).remove();
+					link.remove();
+					$('#credits').text(data.credits);
+					alert(data.message);
+				} else {
+					alert(data.message);
+				}
+			}, 'json').error(function(){
+				alert('发生错误');
+			});
+		});	
+
+	});
+	</script>
+</div>
+{#/block#}

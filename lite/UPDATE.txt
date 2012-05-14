@@ -1,0 +1,12 @@
+1.0.0 => 1.1.0
+
+SQL:
+CREATE TABLE appdata (
+	id integer primary key not null,
+	memberid integer default NULL, -- 用户
+	name varchar(200), -- '名称'
+	itunesurl varchar(200), -- 'iTunes浏览链接'
+	itunesdata text default NULL -- iTunes数据
+	);
+
+	
